@@ -14,7 +14,7 @@ var dataClose = 0;
 
 					var arrayBtn = animalArray[i];
 					//adding iterative buttons to DOM
-					$('#animalButtons').append('<button class="firstAnimals">'+ arrayBtn);
+					$('#animalButtons').append('<button class="animal firstAnimals">'+ arrayBtn);
 					// $('.animal').data("animal", arrayBtn);
 					
 				}
@@ -39,7 +39,7 @@ var dataClose = 0;
 
 			//creating buttons from array	
 			var arrayBtn = animalArray[total];
-			var animalBtn = $('<button class="animal">').attr("id", "data-" + arrayBtn).text(arrayBtn);
+			var animalBtn = $('<button class="animal addedAnimals">').attr("id", "data-" + arrayBtn).text(arrayBtn);
 			$('#animalButtons').append(animalBtn);
 
 			// Create a button with unique identifers based on what number it is in the list. Again use jquery to do this.
@@ -123,7 +123,7 @@ $(document).on('click', '.animalImage', function() {
             }
 		});
 
-//BONUS LOCAL STORAGE==================================================
+//BONUS SWAG ==================================================
 function localStorageArraytoJson(){
 // Clear localStorage
 	localStorage.clear();
@@ -151,5 +151,20 @@ $(document.body).on('click', '.check', function(){
 
 	localStorageArraytoJson();
 });
-//allow deletion of list 1-student-do-todolist
 
+//Display localStorage=============
+
+var retrievedData = localStorage.getItem("animalButtons");
+var animalArray2 = JSON.parse(retrievedData);
+
+if (animalArray2 !== null) {	
+	for (var i = 0; i < animalArray2.length; i++) {
+
+					var arrayBtn2 = animalArray2[i];
+			if(animalArray.indexOf(animalArray2[i]) === -1) {
+					//adding iterative buttons to DOM
+					$('#animalButtons').append('<button class="loadAnimals">'+ arrayBtn2);
+				}
+					
+		}
+	}
