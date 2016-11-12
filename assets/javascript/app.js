@@ -5,23 +5,25 @@ var animalArray = ["border collie", "red panda", "elephant", "sugar glider"];
 var click = 0;
 
 var total = animalArray.length;
-	
+
+var dataClose = 0;
+
 
 //create initial buttons from array================================
 		for (var i = 0; i < animalArray.length; i++) {
 
 					var arrayBtn = animalArray[i];
 					//adding iterative buttons to DOM
-					$('#animalButtons').append('<button class="animal">'+ arrayBtn);
+					$('#animalButtons').append('<button class="firstAnimals">'+ arrayBtn);
 					// $('.animal').data("animal", arrayBtn);
-						
+					
 				}
 
 //adding input to array and creating new button=====================
 		$('#addAnimal').on('click', function() {
-			click = 1;
 			
-			total = (total - 1) + click;
+			click++;
+			
 			
 			//getting value from input
 			var animal = $('#animalInput').val().trim();
@@ -31,13 +33,29 @@ var total = animalArray.length;
 			var addArray = animalArray.push(animal);
 				console.log(animalArray);
 
+			//updating length from push
+			total = (animalArray.length -1);
 			console.log(total);
 
 			//creating buttons from array	
 			var arrayBtn = animalArray[total];
-			$('#animalButtons').append('<button class="animal">'+ arrayBtn);
-			$('.animal').data("animal", arrayBtn);
+			var animalBtn = $('<button class="animal">').attr("id", "data-" + arrayBtn).text(arrayBtn);
+			$('#animalButtons').append(animalBtn);
+
+			// Create a button with unique identifers based on what number it is in the list. Again use jquery to do this.
+			// Button with data attribute
+			// Append a letter X inside.  
+			var animalBtnClose = $("<button>").attr("data-link", arrayBtn)
+						.addClass("check").append("X");
+
+			// Append the button to the animal button
+			$(animalBtn).before(animalBtnClose);
 			
+			// Clear the textbox when done
+			$('#animalInput').val("");
+			
+			//running everytime a new item is clicked
+			localStorageArraytoJson();
 
 				return false;
 		});
@@ -51,7 +69,7 @@ $(document).on('click', '.animal', function() {
          animalName + "&api_key=dc6zaTOxFJmzC&limit=10";
          	console.log(queryURL);
 
-    //NOT WORKING     	
+    //Ajax Call   	
 	$.ajax({
 			url: queryURL, 
 			method: 'GET'
@@ -91,11 +109,11 @@ $(document).on('click', '.animal', function() {
 
 //add animate on click of gif
 $(document).on('click', '.animalImage', function() {
-
+	//get data-state value store in state
 	var state = $(this).attr('data-state');
 
 	
-
+	//check if current state is still if so change url to gif
 	if ( state == 'still'){
 				$(this).attr('src', $(this).attr("src").replace('_s', ''));
                 $(this).attr('data-state', 'animate');
@@ -105,5 +123,33 @@ $(document).on('click', '.animalImage', function() {
             }
 		});
 
+//BONUS LOCAL STORAGE==================================================
+function localStorageArraytoJson(){
+// Clear localStorage
+	localStorage.clear();
+
+	// Store array as string in localStorage
+	localStorage.setItem("animalButtons", JSON.stringify(animalArray));
+}
+
+//When a user clicks check box delete the specific content
+$(document.body).on('click', '.check', function(){
+
+	// Get the todoNumber of the button from its data attribute.
+	var dataName = $(this).data("link");
+	console.log(dataName + " =datanumber");
+	
+	// Empty the specific <p> element that previously held the todo item.
+	$("#data-" + dataName).remove();
+	$(this).remove();
+
+	// Find and remove item from an array
+	var itemIndex = animalArray.indexOf(dataName);
+	if(itemIndex != -1) {
+		animalArray.splice(itemIndex, 1);
+	}
+
+	localStorageArraytoJson();
+});
 //allow deletion of list 1-student-do-todolist
 
