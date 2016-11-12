@@ -1,0 +1,37 @@
+#animalButtons {
+  text-align: center;
+}
+
+button, #addAnimal {
+  border-radius: 5px;
+  box-shadow: 0px 1px 3px #666666;
+  font-family: Arial;
+  color: white;
+  font-size: 16px;
+  background: #3498db;
+  padding: 5px 10px;
+  margin:5px;
+}
+
+button:hover {
+  background: #3cb0fd;
+}
+
+#animalInput {
+  width:80%;
+  border-radius: 5px;
+}
+#animals{
+  margin:0 auto;
+}
+
+.animalItem{
+  display:inline-block;
+  margin:0 10px;
+}
+
+p {
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+}

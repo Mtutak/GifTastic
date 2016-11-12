@@ -60,29 +60,33 @@ $(document).on('click', '.animal', function() {
 
 				var results = response.data;
 				console.log(results);
-		//iterate through all 10 objects called in ajax don't show r rating add rest to DOM
-		for(var i = 0; i < results.length; i++) {
-				if (results[i].rating == 'r') 
-				{
+			//iterate through all 10 objects called in ajax don't show r rating add rest to DOM
+			for(var i = 0; i < results.length; i++) {
+					if (results[i].rating == 'r') 
+					{
 
-				}
-				else{
-					var gifDiv = $('<div class="animalItem">');
-					var rating = results[i].rating;
-					console.log(rating);
+					}
+					else{
+						var gifDiv = $('<div class="animalItem">');
+						var rating = results[i].rating;
+						rating = rating.toUpperCase();
+						console.log(rating);
 
-					var p = $('<p>').text("Rating: " + rating);
-					var animalImage = $('<img class="animalImage">')
-									.attr('src', results[i].images.
-									fixed_height_still.url);
-									//.data('state', 'still');
-					console.log(animalImage);
+						var p = $('<p>').text("Rating: " + rating);
+						var animalImage = $('<img class="animalImage">')
+										.attr('src', results[i].images.
+										fixed_height_still.url)
+										.attr('data-state', 'still');
+						console.log(animalImage);
 
-					$('#animals').append(gifDiv).append(p).append(animalImage);
-				} //else statement
-			}//for statement
-		});//ajax done function
-	
+						gifDiv.append(p);
+						gifDiv.append(animalImage);
+
+						$('#animals').prepend(gifDiv);
+
+					} //else statement
+				}//for statement
+			});//ajax done function	
 });//button click
 
 //add animate on click of gif
@@ -93,14 +97,10 @@ $(document).on('click', '.animalImage', function() {
 	
 
 	if ( state == 'still'){
-				var animate = $(this).attr('src');
-				animate.replace('_s', '');
-				console.log(animate);
+				$(this).attr('src', $(this).attr("src").replace('_s', ''));
                 $(this).attr('data-state', 'animate');
             }else{
-                var animate = $(this).attr('src');
-				animate.replace('.', '_s.');
-				console.log(animate);
+				$(this).attr('src', $(this).attr("src").replace('.gif', '_s.gif'));
                 $(this).attr('data-state', 'still');
             }
 		});
